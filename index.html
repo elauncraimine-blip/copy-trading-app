@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CopyGain</title>
+<title>CopyGain — Copy Trading</title>
 
 <style>
 *{
@@ -14,24 +14,24 @@
 }
 
 body{
-  background:#f4f7fb;
+  background:#f3f6fb;
   color:#172033;
 }
 
 header{
-  background:#111827;
+  background:linear-gradient(135deg,#111827,#1e3a8a);
   color:white;
-  padding:22px;
+  padding:28px 18px;
   text-align:center;
 }
 
 header h1{
-  font-size:30px;
+  font-size:32px;
 }
 
 header p{
-  margin-top:7px;
-  color:#c4ccda;
+  margin-top:8px;
+  color:#dbe4f2;
 }
 
 nav{
@@ -43,13 +43,13 @@ nav{
   position:sticky;
   top:0;
   z-index:10;
-  box-shadow:0 2px 8px rgba(0,0,0,.06);
+  box-shadow:0 2px 10px rgba(0,0,0,.08);
 }
 
 nav button{
   border:0;
   background:#eef2f7;
-  padding:10px 14px;
+  padding:11px 15px;
   border-radius:10px;
   white-space:nowrap;
   font-weight:bold;
@@ -71,30 +71,30 @@ main{
 
 .card{
   background:white;
-  border-radius:16px;
+  border-radius:18px;
   padding:20px;
   margin-bottom:16px;
-  box-shadow:0 5px 20px rgba(0,0,0,.06);
+  box-shadow:0 6px 22px rgba(0,0,0,.07);
 }
 
 .balance{
-  background:#111827;
+  background:linear-gradient(135deg,#111827,#2563eb);
   color:white;
 }
 
 .balance h2{
-  font-size:34px;
+  font-size:35px;
   margin:10px 0;
 }
 
-button.action{
-  background:#2563eb;
-  color:white;
+.action{
   border:0;
   padding:12px 18px;
-  border-radius:10px;
+  border-radius:11px;
   font-weight:bold;
   margin:5px 3px;
+  background:#2563eb;
+  color:white;
 }
 
 .green{
@@ -107,9 +107,9 @@ button.action{
 
 .trader{
   border:1px solid #e1e7ef;
-  border-radius:16px;
+  border-radius:17px;
   padding:18px;
-  margin-top:14px;
+  margin-top:15px;
 }
 
 .trader-top{
@@ -135,21 +135,21 @@ button.action{
 .profit{
   color:#16a34a;
   font-weight:bold;
-  font-size:24px;
-  margin:8px 0;
+  font-size:26px;
+  margin:10px 0;
 }
 
 .stats{
   display:grid;
   grid-template-columns:repeat(2,1fr);
   gap:10px;
-  margin:14px 0;
+  margin:15px 0;
 }
 
 .stat{
   background:#f6f8fb;
   padding:12px;
-  border-radius:10px;
+  border-radius:11px;
 }
 
 .stat small{
@@ -158,15 +158,16 @@ button.action{
 
 .stat strong{
   display:block;
-  margin-top:4px;
+  margin-top:5px;
 }
 
 input{
   width:100%;
   padding:13px;
   border:1px solid #ccd4df;
-  border-radius:10px;
+  border-radius:11px;
   margin:8px 0 14px;
+  font-size:15px;
 }
 
 .auth{
@@ -179,19 +180,62 @@ input{
   font-weight:bold;
 }
 
-footer{
-  text-align:center;
-  padding:25px;
-  color:#687386;
-  font-size:14px;
-}
-
 .detail-box{
   background:#f7f9fc;
-  padding:15px;
+  padding:16px;
   border-radius:12px;
   margin-top:12px;
   display:none;
+}
+
+.hero{
+  text-align:center;
+  padding:10px 0 5px;
+}
+
+.hero h2{
+  font-size:25px;
+}
+
+.hero p{
+  margin-top:8px;
+  color:#687386;
+}
+
+.feature-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  margin-top:15px;
+}
+
+.feature{
+  background:#f7f9fc;
+  padding:15px;
+  border-radius:12px;
+}
+
+.feature strong{
+  display:block;
+  margin-bottom:5px;
+}
+
+hr{
+  border:0;
+  border-top:1px solid #e5e7eb;
+}
+
+footer{
+  text-align:center;
+  padding:28px;
+  color:#687386;
+  font-size:13px;
+}
+
+.warning{
+  font-size:13px;
+  color:#596579;
+  line-height:1.5;
 }
 </style>
 </head>
@@ -200,7 +244,7 @@ footer{
 
 <header>
 <h1>💹 CopyGain</h1>
-<p>Copy les meilleurs traders simplement</p>
+<p>La plateforme de copy trading — mode démonstration</p>
 </header>
 
 <!-- CONNEXION -->
@@ -208,11 +252,10 @@ footer{
 
 <div class="card auth">
 
-<h2>🔐 Connexion</h2>
-
-<p style="margin:10px 0 20px;">
-Connecte-toi à ton compte CopyGain.
-</p>
+<div class="hero">
+<h2>🔐 Bienvenue sur CopyGain</h2>
+<p>Connecte-toi pour accéder à ton espace.</p>
+</div>
 
 <input id="loginEmail"
 type="email"
@@ -232,8 +275,7 @@ onclick="showAuth('register')">
 Créer un compte
 </button>
 
-<p id="loginMessage"
-class="message"></p>
+<p id="loginMessage" class="message"></p>
 
 </div>
 </section>
@@ -243,7 +285,10 @@ class="message"></p>
 
 <div class="card auth">
 
-<h2>👤 Créer un compte</h2>
+<div class="hero">
+<h2>👤 Créer ton compte</h2>
+<p>Rejoins l'expérience CopyGain.</p>
+</div>
 
 <input id="registerName"
 type="text"
@@ -267,8 +312,7 @@ onclick="showAuth('login')">
 J'ai déjà un compte
 </button>
 
-<p id="registerMessage"
-class="message"></p>
+<p id="registerMessage" class="message"></p>
 
 </div>
 </section>
@@ -306,12 +350,12 @@ class="message"></p>
 
 <main>
 
-<!-- TABLEAU DE BORD -->
+<!-- ACCUEIL -->
 <section id="dashboard" class="section">
 
 <div class="card balance">
 
-<p>Solde disponible</p>
+<p>💰 Solde disponible</p>
 
 <h2 id="balance">
 50 000 FCFA
@@ -323,15 +367,13 @@ class="message"></p>
 
 <div class="card">
 
-<h2>Bienvenue 👋</h2>
+<h2>Bonjour 👋</h2>
 
-<p id="welcomeName"
-style="margin-top:10px;">
-</p>
+<p id="welcomeName" style="margin-top:10px;"></p>
 
-<p style="margin-top:10px;">
-Découvre les traders disponibles et choisis
-ceux que tu souhaites suivre.
+<p style="margin-top:12px;">
+Découvre les traders disponibles, analyse leurs stratégies
+et simule la copie de leurs opérations.
 </p>
 
 </div>
@@ -340,17 +382,45 @@ ceux que tu souhaites suivre.
 
 <h2>⚡ Actions rapides</h2>
 
-<br>
-
 <button class="action"
 onclick="showSection('traders')">
-📊 Voir les traders
+📊 Découvrir les traders
 </button>
 
 <button class="action green"
 onclick="showSection('wallet')">
 💳 Mon portefeuille
 </button>
+
+</div>
+
+<div class="card">
+
+<h2>✨ Pourquoi CopyGain ?</h2>
+
+<div class="feature-grid">
+
+<div class="feature">
+<strong>📊 Analyse</strong>
+Compare les traders.
+</div>
+
+<div class="feature">
+<strong>🔄 Copy Trading</strong>
+Simule la copie.
+</div>
+
+<div class="feature">
+<strong>🛡️ Sécurité</strong>
+Espace personnel.
+</div>
+
+<div class="feature">
+<strong>📈 Suivi</strong>
+Consulte ton historique.
+</div>
+
+</div>
 
 </div>
 
@@ -367,7 +437,7 @@ onclick="showSection('wallet')">
 Compare les performances avant de choisir.
 </p>
 
-<!-- TRADER 1 -->
+<!-- ALPHA -->
 
 <div class="trader">
 
@@ -375,18 +445,16 @@ Compare les performances avant de choisir.
 
 <div>
 <h3>🏆 Trader Alpha</h3>
-<p>Expert en trading</p>
+<p>Stratégie équilibrée</p>
 </div>
 
 <span class="badge">
-Risque modéré
+⭐ Vérifié
 </span>
 
 </div>
 
-<p class="profit">
-+18,5%
-</p>
+<p class="profit">+18,5%</p>
 
 <p>Performance sur 30 jours</p>
 
@@ -424,18 +492,16 @@ onclick="copyTrader('Trader Alpha')">
 🔄 Copier ce trader
 </button>
 
-<div id="alpha"
-class="detail-box">
+<div id="alpha" class="detail-box">
 
 <strong>Profil Trader Alpha</strong>
 
 <p style="margin-top:8px;">
-Stratégie équilibrée avec recherche de
-performance régulière.
+Stratégie équilibrée avec recherche de performance régulière.
 </p>
 
 <p style="margin-top:8px;">
-Performance annuelle : +62,4%
+Performance annuelle : <strong>+62,4%</strong>
 </p>
 
 <p style="margin-top:8px;">
@@ -446,7 +512,7 @@ Statut : ⭐ Trader vérifié
 
 </div>
 
-<!-- TRADER 2 -->
+<!-- PRO -->
 
 <div class="trader">
 
@@ -463,9 +529,7 @@ Risque élevé
 
 </div>
 
-<p class="profit">
-+24,2%
-</p>
+<p class="profit">+24,2%</p>
 
 <p>Performance sur 30 jours</p>
 
@@ -503,18 +567,17 @@ onclick="copyTrader('Trader Pro')">
 🔄 Copier ce trader
 </button>
 
-<div id="pro"
-class="detail-box">
+<div id="pro" class="detail-box">
 
 <strong>Profil Trader Pro</strong>
 
 <p style="margin-top:8px;">
-Stratégie dynamique visant des rendements
-plus importants avec davantage de risque.
+Stratégie dynamique visant des rendements plus importants
+avec davantage de risque.
 </p>
 
 <p style="margin-top:8px;">
-Performance annuelle : +81,7%
+Performance annuelle : <strong>+81,7%</strong>
 </p>
 
 <p style="margin-top:8px;">
@@ -525,7 +588,7 @@ Statut : ⭐ Trader vérifié
 
 </div>
 
-<!-- TRADER 3 -->
+<!-- STABLE -->
 
 <div class="trader">
 
@@ -542,9 +605,7 @@ Risque faible
 
 </div>
 
-<p class="profit">
-+11,8%
-</p>
+<p class="profit">+11,8%</p>
 
 <p>Performance sur 30 jours</p>
 
@@ -582,18 +643,16 @@ onclick="copyTrader('Trader Stable')">
 🔄 Copier ce trader
 </button>
 
-<div id="stable"
-class="detail-box">
+<div id="stable" class="detail-box">
 
 <strong>Profil Trader Stable</strong>
 
 <p style="margin-top:8px;">
-Approche prudente privilégiant la régularité
-et la maîtrise du risque.
+Approche prudente privilégiant la régularité et la maîtrise du risque.
 </p>
 
 <p style="margin-top:8px;">
-Performance annuelle : +45,2%
+Performance annuelle : <strong>+45,2%</strong>
 </p>
 
 <p style="margin-top:8px;">
@@ -608,11 +667,11 @@ Statut : ⭐ Trader vérifié
 
 <div class="card">
 
-<p style="font-size:13px;">
-⚠️ Les performances affichées sont fictives
-et servent uniquement à la démonstration.
-Les performances passées ne garantissent pas
-les résultats futurs.
+<p class="warning">
+⚠️ <strong>Mode démonstration :</strong>
+les performances, soldes et opérations affichés sont fictifs.
+Aucun argent réel n'est investi ou transféré.
+Les performances passées ne garantissent pas les résultats futurs.
 </p>
 
 </div>
@@ -627,9 +686,7 @@ les résultats futurs.
 
 <h2>💰 Mon portefeuille</h2>
 
-<p style="margin-top:15px;">
-Solde :
-</p>
+<p style="margin-top:15px;">Solde disponible :</p>
 
 <h2 id="walletBalance">
 50 000 FCFA
@@ -637,7 +694,7 @@ Solde :
 
 <hr style="margin:20px 0;">
 
-<h3>💳 Dépôt</h3>
+<h3>💳 Dépôt simulé</h3>
 
 <input id="depositAmount"
 type="number"
@@ -650,7 +707,7 @@ Ajouter un dépôt
 
 <br><br>
 
-<h3>💸 Retrait</h3>
+<h3>💸 Retrait simulé</h3>
 
 <input id="withdrawAmount"
 type="number"
@@ -661,9 +718,8 @@ onclick="withdraw()">
 Demander un retrait
 </button>
 
-<p style="margin-top:15px;font-size:13px;">
-⚠️ Démonstration : aucun argent réel
-n'est transféré.
+<p class="warning" style="margin-top:15px;">
+⚠️ Aucun argent réel n'est transféré dans cette version.
 </p>
 
 </div>
@@ -711,9 +767,7 @@ onclick="saveProfile()">
 💾 Enregistrer
 </button>
 
-<p id="profileMessage"
-class="message">
-</p>
+<p id="profileMessage" class="message"></p>
 
 </div>
 
@@ -721,17 +775,9 @@ class="message">
 
 <h2>⚙️ Paramètres</h2>
 
-<p style="margin-top:10px;">
-🔐 Sécurité du compte
-</p>
-
-<p style="margin-top:10px;">
-🔔 Notifications
-</p>
-
-<p style="margin-top:10px;">
-🌍 Langue : Français
-</p>
+<p style="margin-top:12px;">🔐 Sécurité du compte</p>
+<p style="margin-top:12px;">🔔 Notifications</p>
+<p style="margin-top:12px;">🌍 Langue : Français</p>
 
 </div>
 
@@ -740,7 +786,7 @@ class="message">
 </main>
 
 <footer>
-© 2026 CopyGain — Version démonstration
+© 2026 CopyGain — Prototype / Démonstration
 </footer>
 
 </div>
@@ -761,23 +807,14 @@ document.getElementById(id)
 
 function register(){
 
-let name=
-document.getElementById('registerName').value;
-
-let email=
-document.getElementById('registerEmail').value;
-
-let password=
-document.getElementById('registerPassword').value;
-
-let message=
-document.getElementById('registerMessage');
+let name=document.getElementById('registerName').value;
+let email=document.getElementById('registerEmail').value;
+let password=document.getElementById('registerPassword').value;
+let message=document.getElementById('registerMessage');
 
 if(!name || !email || !password){
 
-message.textContent=
-"❌ Remplis tous les champs.";
-
+message.textContent="❌ Remplis tous les champs.";
 return;
 
 }
@@ -798,17 +835,11 @@ message.textContent=
 
 function login(){
 
-let email=
-document.getElementById('loginEmail').value;
+let email=document.getElementById('loginEmail').value;
+let password=document.getElementById('loginPassword').value;
 
-let password=
-document.getElementById('loginPassword').value;
-
-let saved=
-localStorage.getItem("copygainUser");
-
-let message=
-document.getElementById('loginMessage');
+let saved=localStorage.getItem("copygainUser");
+let message=document.getElementById('loginMessage');
 
 if(!saved){
 
@@ -821,13 +852,9 @@ return;
 
 let user=JSON.parse(saved);
 
-if(email===user.email &&
-password===user.password){
+if(email===user.email && password===user.password){
 
-localStorage.setItem(
-"copygainLogged",
-"true"
-);
+localStorage.setItem("copygainLogged","true");
 
 openApp(user);
 
@@ -868,9 +895,7 @@ showSection("dashboard");
 
 function logout(){
 
-localStorage.removeItem(
-"copygainLogged"
-);
+localStorage.removeItem("copygainLogged");
 
 document.getElementById("app")
 .style.display="none";
@@ -883,11 +908,8 @@ alert("👋 Tu es déconnecté.");
 
 function showSection(id){
 
-document.querySelectorAll(
-'#app .section'
-).forEach(
-s=>s.classList.remove('active')
-);
+document.querySelectorAll('#app .section')
+.forEach(s=>s.classList.remove('active'));
 
 document.getElementById(id)
 .classList.add('active');
@@ -901,17 +923,12 @@ behavior:'smooth'
 
 function details(id){
 
-let box=
-document.getElementById(id);
+let box=document.getElementById(id);
 
 if(box.style.display==="block"){
-
 box.style.display="none";
-
 }else{
-
 box.style.display="block";
-
 }
 
 }
@@ -921,12 +938,10 @@ function copyTrader(name){
 alert(
 "✅ "+name+
 " sélectionné.\n\n"+
-"Mode démonstration : la copie automatique sera activée dans une prochaine version."
+"Mode démonstration : la copie automatique sera disponible dans une prochaine version."
 );
 
-addHistory(
-"Copie de "+name
-);
+addHistory("Copie simulée de "+name);
 
 }
 
@@ -934,31 +949,23 @@ function updateBalance(){
 
 document.getElementById("balance")
 .textContent=
-balance.toLocaleString("fr-FR")
-+" FCFA";
+balance.toLocaleString("fr-FR")+" FCFA";
 
 document.getElementById("walletBalance")
 .textContent=
-balance.toLocaleString("fr-FR")
-+" FCFA";
+balance.toLocaleString("fr-FR")+" FCFA";
 
 }
 
 function deposit(){
 
-let amount=
-Number(
-document.getElementById(
-"depositAmount"
-).value
+let amount=Number(
+document.getElementById("depositAmount").value
 );
 
 if(amount<=0){
-
 alert("Entre un montant valide.");
-
 return;
-
 }
 
 balance+=amount;
@@ -967,43 +974,29 @@ updateBalance();
 
 addHistory(
 "Dépôt simulé : +"+
-amount.toLocaleString("fr-FR")+
-" FCFA"
+amount.toLocaleString("fr-FR")+" FCFA"
 );
 
-document.getElementById(
-"depositAmount"
-).value="";
+document.getElementById("depositAmount").value="";
 
-alert(
-"✅ Dépôt ajouté en démonstration."
-);
+alert("✅ Dépôt ajouté en démonstration.");
 
 }
 
 function withdraw(){
 
-let amount=
-Number(
-document.getElementById(
-"withdrawAmount"
-).value
+let amount=Number(
+document.getElementById("withdrawAmount").value
 );
 
 if(amount<=0){
-
 alert("Entre un montant valide.");
-
 return;
-
 }
 
 if(amount>balance){
-
 alert("❌ Solde insuffisant.");
-
 return;
-
 }
 
 balance-=amount;
@@ -1012,43 +1005,30 @@ updateBalance();
 
 addHistory(
 "Retrait simulé : -"+
-amount.toLocaleString("fr-FR")+
-" FCFA"
+amount.toLocaleString("fr-FR")+" FCFA"
 );
 
-document.getElementById(
-"withdrawAmount"
-).value="";
+document.getElementById("withdrawAmount").value="";
 
-alert(
-"✅ Retrait simulé."
-);
+alert("✅ Retrait simulé.");
 
 }
 
 function addHistory(text){
 
-let list=
-document.getElementById(
-"historyList"
-);
+let list=document.getElementById("historyList");
 
 if(
 list.children.length===1 &&
 list.children[0].tagName==="P"
 ){
-
 list.innerHTML="";
-
 }
 
-let item=
-document.createElement("p");
+let item=document.createElement("p");
 
 item.style.padding="12px 0";
-
-item.style.borderBottom=
-"1px solid #eee";
+item.style.borderBottom="1px solid #eee";
 
 item.textContent=
 "• "+text+
@@ -1061,20 +1041,10 @@ list.prepend(item);
 
 function saveProfile(){
 
-let name=
-document.getElementById(
-"profileName"
-).value;
+let name=document.getElementById("profileName").value;
+let email=document.getElementById("profileEmail").value;
 
-let email=
-document.getElementById(
-"profileEmail"
-).value;
-
-let saved=
-localStorage.getItem(
-"copygainUser"
-);
+let saved=localStorage.getItem("copygainUser");
 
 if(saved){
 
@@ -1090,14 +1060,11 @@ JSON.stringify(user)
 
 }
 
-document.getElementById(
-"profileMessage"
-).textContent=
-"✅ Profil enregistré.";
+document.getElementById("profileMessage")
+.textContent="✅ Profil enregistré.";
 
-document.getElementById(
-"welcomeName"
-).textContent=
+document.getElementById("welcomeName")
+.textContent=
 "Bonjour "+name+
 " ! Ton espace CopyGain est prêt.";
 
@@ -1108,4 +1075,4 @@ updateBalance();
 </script>
 
 </body>
-  </html>
+</html>
