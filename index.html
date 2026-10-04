@@ -1,943 +1,1054 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#111827">
-  <title>CopyGain - Copy Trading</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0f172a">
+<title>CopyGain - Copy Trading</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif;
+}
 
-    body {
-      background: #f3f4f6;
-      color: #111827;
-      min-height: 100vh;
-    }
+body{
+  background:#f1f5f9;
+  color:#0f172a;
+  min-height:100vh;
+}
 
-    header {
-      background: #111827;
-      color: white;
-      padding: 18px 16px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      box-shadow: 0 2px 8px rgba(0,0,0,.15);
-    }
+header{
+  background:#0f172a;
+  color:white;
+  padding:18px 16px;
+  position:sticky;
+  top:0;
+  z-index:20;
+  box-shadow:0 3px 12px rgba(0,0,0,.18);
+}
 
-    .header-content {
-      max-width: 900px;
-      margin: auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+.header{
+  max-width:900px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
 
-    .logo {
-      font-size: 24px;
-      font-weight: bold;
-    }
+.logo{
+  font-size:25px;
+  font-weight:800;
+}
 
-    .logo span {
-      color: #22c55e;
-    }
+.logo span{
+  color:#22c55e;
+}
 
-    .status {
-      font-size: 12px;
-      background: #166534;
-      padding: 6px 10px;
-      border-radius: 20px;
-    }
+.demo{
+  background:#166534;
+  padding:6px 10px;
+  border-radius:20px;
+  font-size:11px;
+}
 
-    main {
-      max-width: 900px;
-      margin: auto;
-      padding: 20px 15px 100px;
-    }
+main{
+  max-width:900px;
+  margin:auto;
+  padding:22px 15px 100px;
+}
 
-    .page {
-      display: none;
-    }
+.page{
+  display:none;
+}
 
-    .page.active {
-      display: block;
-    }
+.page.active{
+  display:block;
+}
 
-    h1 {
-      font-size: 25px;
-      margin-bottom: 6px;
-    }
+h1{
+  font-size:26px;
+  margin-bottom:5px;
+}
 
-    .subtitle {
-      color: #6b7280;
-      margin-bottom: 20px;
-    }
+.subtitle{
+  color:#64748b;
+  margin-bottom:20px;
+}
 
-    .card {
-      background: white;
-      border-radius: 16px;
-      padding: 18px;
-      margin-bottom: 15px;
-      box-shadow: 0 2px 10px rgba(0,0,0,.06);
-    }
+.card{
+  background:white;
+  border-radius:18px;
+  padding:18px;
+  margin-bottom:15px;
+  box-shadow:0 3px 12px rgba(15,23,42,.06);
+}
 
-    .balance-card {
-      background: #111827;
-      color: white;
-    }
+.balance-card{
+  background:#0f172a;
+  color:white;
+}
 
-    .balance-label {
-      color: #d1d5db;
-      font-size: 14px;
-    }
+.balance-label{
+  color:#cbd5e1;
+  font-size:14px;
+}
 
-    .balance {
-      font-size: 32px;
-      font-weight: bold;
-      margin: 8px 0;
-    }
+.balance{
+  font-size:34px;
+  font-weight:800;
+  margin:8px 0;
+}
 
-    .demo {
-      color: #86efac;
-      font-size: 13px;
-    }
+.green{
+  color:#16a34a;
+}
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
+.blue{
+  color:#2563eb;
+}
 
-    .stat {
-      background: white;
-      padding: 16px;
-      border-radius: 14px;
-      box-shadow: 0 2px 8px rgba(0,0,0,.05);
-    }
+.orange{
+  color:#ea580c;
+}
 
-    .stat-title {
-      color: #6b7280;
-      font-size: 13px;
-    }
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+  margin-bottom:20px;
+}
 
-    .stat-value {
-      font-size: 21px;
-      font-weight: bold;
-      margin-top: 7px;
-    }
+.stat{
+  background:white;
+  padding:16px;
+  border-radius:15px;
+  box-shadow:0 3px 10px rgba(15,23,42,.05);
+}
 
-    .green {
-      color: #16a34a;
-    }
+.stat-title{
+  color:#64748b;
+  font-size:13px;
+}
 
-    .red {
-      color: #dc2626;
-    }
+.stat-value{
+  font-size:20px;
+  font-weight:800;
+  margin-top:7px;
+}
 
-    .trader {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-    }
+.section-title{
+  font-size:19px;
+  font-weight:800;
+  margin:22px 0 10px;
+}
 
-    .trader-info {
-      flex: 1;
-    }
+.trader{
+  display:flex;
+  gap:15px;
+  align-items:flex-start;
+}
 
-    .trader-name {
-      font-size: 19px;
-      font-weight: bold;
-    }
+.avatar{
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  background:#dcfce7;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:25px;
+  flex-shrink:0;
+}
 
-    .verified {
-      font-size: 12px;
-      color: #2563eb;
-      margin-top: 4px;
-    }
+.trader-info{
+  flex:1;
+}
 
-    .strategy {
-      color: #6b7280;
-      font-size: 13px;
-      margin-top: 6px;
-    }
+.trader-name{
+  font-size:19px;
+  font-weight:800;
+}
 
-    .performance {
-      font-size: 21px;
-      font-weight: bold;
-      color: #16a34a;
-      margin: 6px 0;
-    }
+.verified{
+  color:#2563eb;
+  font-size:12px;
+  margin-top:4px;
+}
 
-    button {
-      border: none;
-      cursor: pointer;
-      border-radius: 10px;
-      padding: 11px 15px;
-      font-weight: bold;
-      font-size: 14px;
-    }
+.strategy{
+  color:#64748b;
+  font-size:13px;
+  line-height:1.5;
+  margin-top:7px;
+}
 
-    .primary {
-      background: #16a34a;
-      color: white;
-    }
+.performance{
+  font-size:23px;
+  font-weight:800;
+  color:#16a34a;
+  margin:8px 0;
+}
 
-    .primary:hover {
-      background: #15803d;
-    }
+.risk{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:15px;
+  font-size:11px;
+  font-weight:bold;
+  margin-top:5px;
+}
 
-    .secondary {
-      background: #e5e7eb;
-      color: #111827;
-    }
+.low{
+  background:#dcfce7;
+  color:#166534;
+}
 
-    .danger {
-      background: #dc2626;
-      color: white;
-    }
+.medium{
+  background:#fef3c7;
+  color:#92400e;
+}
 
-    .full {
-      width: 100%;
-    }
+.high{
+  background:#fee2e2;
+  color:#991b1b;
+}
 
-    .profile-row {
-      padding: 14px 0;
-      border-bottom: 1px solid #e5e7eb;
-    }
+.stats-row{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin:14px 0;
+}
 
-    .profile-row:last-child {
-      border-bottom: none;
-    }
+.mini-stat{
+  background:#f8fafc;
+  border-radius:10px;
+  padding:10px;
+}
 
-    .profile-label {
-      color: #6b7280;
-      font-size: 13px;
-    }
+.mini-label{
+  color:#64748b;
+  font-size:10px;
+}
 
-    .profile-value {
-      font-weight: bold;
-      margin-top: 4px;
-    }
+.mini-value{
+  font-weight:bold;
+  font-size:13px;
+  margin-top:4px;
+}
 
-    input, select {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #d1d5db;
-      border-radius: 10px;
-      margin-top: 7px;
-      margin-bottom: 12px;
-      font-size: 15px;
-    }
+button{
+  border:none;
+  cursor:pointer;
+  border-radius:11px;
+  padding:12px 15px;
+  font-weight:bold;
+  font-size:14px;
+}
 
-    .history-item {
-      border-left: 4px solid #16a34a;
-      padding: 12px;
-      background: #f9fafb;
-      margin-bottom: 10px;
-      border-radius: 8px;
-    }
+.primary{
+  background:#16a34a;
+  color:white;
+}
 
-    .history-title {
-      font-weight: bold;
-    }
+.primary:hover{
+  background:#15803d;
+}
 
-    .history-date {
-      color: #6b7280;
-      font-size: 12px;
-      margin-top: 4px;
-    }
+.secondary{
+  background:#e2e8f0;
+  color:#0f172a;
+}
 
-    .empty {
-      text-align: center;
-      color: #6b7280;
-      padding: 25px;
-    }
+.danger{
+  background:#dc2626;
+  color:white;
+}
 
-    .alert {
-      padding: 13px;
-      border-radius: 10px;
-      background: #dcfce7;
-      color: #166534;
-      margin-bottom: 15px;
-      display: none;
-    }
+.full{
+  width:100%;
+}
 
-    nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: white;
-      border-top: 1px solid #e5e7eb;
-      z-index: 20;
-    }
+input,select{
+  width:100%;
+  padding:12px;
+  border:1px solid #cbd5e1;
+  border-radius:10px;
+  margin:7px 0 13px;
+  font-size:15px;
+}
 
-    .nav-content {
-      max-width: 900px;
-      margin: auto;
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-    }
+.alert{
+  display:none;
+  background:#dcfce7;
+  color:#166534;
+  padding:13px;
+  border-radius:11px;
+  margin-bottom:15px;
+  font-weight:bold;
+}
 
-    .nav-btn {
-      background: white;
-      color: #6b7280;
-      border-radius: 0;
-      padding: 10px 4px;
-      font-size: 11px;
-    }
+.history-item{
+  border-left:4px solid #16a34a;
+  background:#f8fafc;
+  padding:13px;
+  border-radius:9px;
+  margin-bottom:10px;
+}
 
-    .nav-btn.active {
-      color: #16a34a;
-      font-weight: bold;
-    }
+.history-title{
+  font-weight:bold;
+}
 
-    .nav-icon {
-      display: block;
-      font-size: 19px;
-      margin-bottom: 3px;
-    }
+.history-date{
+  color:#64748b;
+  font-size:12px;
+  margin-top:5px;
+}
 
-    .section-title {
-      font-size: 18px;
-      font-weight: bold;
-      margin: 20px 0 10px;
-    }
+.profile-row{
+  padding:14px 0;
+  border-bottom:1px solid #e2e8f0;
+}
 
-    .switch-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 0;
-      border-bottom: 1px solid #e5e7eb;
-    }
+.profile-label{
+  color:#64748b;
+  font-size:13px;
+}
 
-    .switch {
-      width: 45px;
-      height: 25px;
-      border-radius: 20px;
-      background: #d1d5db;
-      position: relative;
-      cursor: pointer;
-    }
+.profile-value{
+  font-weight:bold;
+  margin-top:5px;
+}
 
-    .switch.on {
-      background: #16a34a;
-    }
+.switch-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px 0;
+  border-bottom:1px solid #e2e8f0;
+}
 
-    .switch::after {
-      content: "";
-      width: 19px;
-      height: 19px;
-      background: white;
-      border-radius: 50%;
-      position: absolute;
-      top: 3px;
-      left: 3px;
-      transition: .2s;
-    }
+.switch{
+  width:45px;
+  height:25px;
+  border-radius:20px;
+  background:#cbd5e1;
+  position:relative;
+  cursor:pointer;
+}
 
-    .switch.on::after {
-      left: 23px;
-    }
+.switch.on{
+  background:#16a34a;
+}
 
-    @media (max-width: 600px) {
-      .trader {
-        align-items: flex-start;
-      }
+.switch:after{
+  content:"";
+  width:19px;
+  height:19px;
+  background:white;
+  border-radius:50%;
+  position:absolute;
+  top:3px;
+  left:3px;
+  transition:.2s;
+}
 
-      .trader button {
-        padding: 10px;
-      }
+.switch.on:after{
+  left:23px;
+}
 
-      .grid {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-  </style>
+.rank{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:12px;
+}
+
+.rank-number{
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  background:#e2e8f0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+}
+
+.rank-info{
+  flex:1;
+}
+
+.rank-name{
+  font-weight:bold;
+}
+
+.rank-performance{
+  color:#16a34a;
+  font-size:13px;
+  margin-top:3px;
+}
+
+nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:white;
+  border-top:1px solid #e2e8f0;
+  z-index:30;
+}
+
+.nav{
+  max-width:900px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+}
+
+.nav-btn{
+  background:white;
+  color:#64748b;
+  border-radius:0;
+  padding:9px 3px;
+  font-size:10px;
+}
+
+.nav-btn.active{
+  color:#16a34a;
+}
+
+.icon{
+  display:block;
+  font-size:19px;
+  margin-bottom:3px;
+}
+
+@media(max-width:600px){
+  .trader{
+    align-items:flex-start;
+  }
+
+  .trader button{
+    padding:10px;
+  }
+}
+</style>
 </head>
 
 <body>
 
 <header>
-  <div class="header-content">
+  <div class="header">
     <div class="logo">Copy<span>Gain</span></div>
-    <div class="status">● MODE DÉMO</div>
+    <div class="demo">● MODE DÉMO</div>
   </div>
 </header>
 
 <main>
 
-  <!-- ACCUEIL -->
-  <section id="home" class="page active">
-    <h1>Tableau de bord</h1>
-    <p class="subtitle">Bienvenue sur CopyGain</p>
+<!-- ACCUEIL -->
+<section id="home" class="page active">
 
-    <div id="alert" class="alert"></div>
+<h1>Tableau de bord</h1>
+<p class="subtitle">Bienvenue sur CopyGain</p>
 
-    <div class="card balance-card">
-      <div class="balance-label">Solde disponible</div>
-      <div class="balance" id="homeBalance">60 000 FCFA</div>
-      <div class="demo">Compte de démonstration</div>
-    </div>
+<div id="alert" class="alert"></div>
 
-    <div class="grid">
-      <div class="stat">
-        <div class="stat-title">Capital investi</div>
-        <div class="stat-value" id="invested">10 000 FCFA</div>
-      </div>
+<div class="card balance-card">
+  <div class="balance-label">Solde disponible</div>
+  <div class="balance" id="homeBalance">60 000 FCFA</div>
+  <small>Compte de démonstration</small>
+</div>
 
-      <div class="stat">
-        <div class="stat-title">Gain simulé</div>
-        <div class="stat-value green" id="gain">+2 400 FCFA</div>
-      </div>
-    </div>
+<div class="grid">
 
-    <div class="section-title">Trader recommandé</div>
+<div class="stat">
+  <div class="stat-title">Capital investi</div>
+  <div class="stat-value">10 000 FCFA</div>
+</div>
 
-    <div class="card">
-      <div class="trader">
-        <div class="trader-info">
-          <div class="trader-name">Trader Alpha ⭐</div>
-          <div class="verified">✓ Trader vérifié</div>
-          <div class="strategy">
-            Stratégie équilibrée avec recherche de performance régulière.
-          </div>
-          <div class="performance">+62,4%</div>
-          <small>Performance annuelle simulée</small>
-        </div>
+<div class="stat">
+  <div class="stat-title">Gain simulé</div>
+  <div class="stat-value green">+2 400 FCFA</div>
+</div>
 
-        <button class="primary" onclick="copyTrader()">
-          Copier
-        </button>
-      </div>
-    </div>
-  </section>
+<div class="stat">
+  <div class="stat-title">Trader copié</div>
+  <div class="stat-value blue">1</div>
+</div>
 
+<div class="stat">
+  <div class="stat-title">Risque</div>
+  <div class="stat-value orange">Modéré</div>
+</div>
 
-  <!-- TRADERS -->
-  <section id="traders" class="page">
-    <h1>Traders</h1>
-    <p class="subtitle">Découvrez les traders disponibles</p>
+</div>
 
-    <div class="card">
-      <div class="trader">
-        <div class="trader-info">
-          <div class="trader-name">Trader Alpha ⭐</div>
-          <div class="verified">✓ Trader vérifié</div>
-          <div class="strategy">
-            Stratégie équilibrée avec recherche de performance régulière.
-          </div>
-          <div class="performance">+62,4%</div>
-          <small>Performance annuelle simulée</small>
-        </div>
+<div class="section-title">⭐ Trader recommandé</div>
 
-        <button class="primary" onclick="copyTrader()">
-          Copier
-        </button>
-      </div>
-    </div>
+<div class="card">
 
-    <div class="card">
-      <div class="trader">
-        <div class="trader-info">
-          <div class="trader-name">Trader Nova</div>
-          <div class="verified">✓ Trader vérifié</div>
-          <div class="strategy">
-            Stratégie dynamique avec recherche de croissance.
-          </div>
-          <div class="performance">+38,7%</div>
-          <small>Performance annuelle simulée</small>
-        </div>
+<div class="trader">
 
-        <button class="primary" onclick="copyNova()">
-          Copier
-        </button>
-      </div>
-    </div>
-  </section>
+<div class="avatar">📈</div>
 
+<div class="trader-info">
 
-  <!-- PORTEFEUILLE -->
-  <section id="wallet" class="page">
-    <h1>Mon portefeuille</h1>
-    <p class="subtitle">Gestion de votre portefeuille démo</p>
+<div class="trader-name">Trader Alpha</div>
 
-    <div class="card balance-card">
-      <div class="balance-label">Solde disponible :</div>
-      <div class="balance" id="walletBalance">60 000 FCFA</div>
-      <div class="demo">Données simulées</div>
-    </div>
+<div class="verified">✓ Trader vérifié</div>
 
-    <div class="card">
-      <h3>Dépôt simulé</h3>
-      <p class="subtitle">Ajoutez des fonds fictifs pour tester CopyGain.</p>
+<div class="strategy">
+Stratégie équilibrée avec recherche de performance régulière.
+</div>
 
-      <input
-        type="number"
-        id="depositAmount"
-        placeholder="Montant en FCFA"
-        min="1000"
-      >
+<div class="performance">+62,4%</div>
 
-      <button class="primary full" onclick="deposit()">
-        + Déposer
-      </button>
-    </div>
+<span class="risk medium">Risque modéré</span>
 
-    <div class="card">
-      <h3>Retrait simulé</h3>
-      <p class="subtitle">Simulation uniquement.</p>
+<div class="stats-row">
 
-      <input
-        type="number"
-        id="withdrawAmount"
-        placeholder="Montant en FCFA"
-        min="1000"
-      >
+<div class="mini-stat">
+<div class="mini-label">Performance</div>
+<div class="mini-value green">+62,4%</div>
+</div>
 
-      <button class="secondary full" onclick="withdraw()">
-        Retirer
-      </button>
-    </div>
-  </section>
+<div class="mini-stat">
+<div class="mini-label">Risque</div>
+<div class="mini-value">Modéré</div>
+</div>
+
+<div class="mini-stat">
+<div class="mini-label">Statut</div>
+<div class="mini-value">Vérifié</div>
+</div>
+
+</div>
+
+<button class="primary" onclick="copyTrader()">
+Copier ce trader
+</button>
+
+</div>
+</div>
+</div>
+
+</section>
 
 
-  <!-- HISTORIQUE -->
-  <section id="history" class="page">
-    <h1>Historique</h1>
-    <p class="subtitle">Vos opérations simulées</p>
+<!-- TRADERS -->
+<section id="traders" class="page">
 
-    <div id="historyList"></div>
-  </section>
+<h1>Traders</h1>
+<p class="subtitle">Comparez les stratégies disponibles</p>
+
+<div class="card">
+
+<div class="trader">
+
+<div class="avatar">🏆</div>
+
+<div class="trader-info">
+
+<div class="trader-name">Trader Alpha ⭐</div>
+<div class="verified">✓ Trader vérifié</div>
+
+<div class="strategy">
+Stratégie équilibrée et recherche de performance régulière.
+</div>
+
+<div class="performance">+62,4%</div>
+
+<span class="risk medium">Risque modéré</span>
+
+<div class="stats-row">
+
+<div class="mini-stat">
+<div class="mini-label">Copieurs</div>
+<div class="mini-value">1 248</div>
+</div>
+
+<div class="mini-stat">
+<div class="mini-label">Réussite</div>
+<div class="mini-value">87%</div>
+</div>
+
+<div class="mini-stat">
+<div class="mini-label">Risque</div>
+<div class="mini-value">Modéré</div>
+</div>
+
+</div>
+
+<button class="primary" onclick="copyTrader()">
+Copier
+</button>
+
+</div>
+</div>
+</div>
 
 
-  <!-- PROFIL -->
-  <section id="profile" class="page">
-    <h1>Mon profil</h1>
-    <p class="subtitle">Gérez vos informations</p>
+<div class="card">
 
-    <div class="card">
-      <div class="profile-row">
-        <div class="profile-label">Nom complet</div>
-        <div class="profile-value" id="profileName">
-          Koumado
-        </div>
-      </div>
+<div class="trader">
 
-      <div class="profile-row">
-        <div class="profile-label">Adresse mail</div>
-        <div class="profile-value" id="profileEmail">
-          bradinebabe@gmail.com
-        </div>
-      </div>
-    </div>
+<div class="avatar">🚀</div>
 
-    <div class="card">
-      <h3>Modifier le profil</h3>
+<div class="trader-info">
 
-      <label>Nom complet</label>
-      <input type="text" id="nameInput" value="Koumado">
+<div class="trader-name">Trader Nova</div>
+<div class="verified">✓ Trader vérifié</div>
 
-      <label>Adresse mail</label>
-      <input type="email" id="emailInput" value="bradinebabe@gmail.com">
+<div class="strategy">
+Stratégie dynamique orientée croissance.
+</div>
 
-      <button class="primary full" onclick="saveProfile()">
-        💾 Enregistrer
-      </button>
-    </div>
+<div class="performance">+38,7%</div>
 
-    <div class="section-title">⚙️ Paramètres</div>
+<span class="risk high">Risque élevé</span>
 
-    <div class="card">
+<div class="stats-row">
 
-      <div class="switch-row">
-        <div>
-          <strong>🔐 Sécurité du compte</strong>
-        </div>
-        <div class="switch on"></div>
-      </div>
+<div class="mini-stat">
+<div class="mini-label">Copieurs</div>
+<div class="mini-value">836</div>
+</div>
 
-      <div class="switch-row">
-        <div>
-          <strong>🔔 Notifications</strong>
-        </div>
-        <div
-          class="switch on"
-          onclick="toggleSwitch(this)"
-        ></div>
-      </div>
+<div class="mini-stat">
+<div class="mini-label">Réussite</div>
+<div class="mini-value">76%</div>
+</div>
 
-      <div class="switch-row">
-        <div>
-          <strong>🌍 Langue</strong>
-        </div>
-        <div>Français</div>
-      </div>
+<div class="mini-stat">
+<div class="mini-label">Risque</div>
+<div class="mini-value">Élevé</div>
+</div>
 
-    </div>
+</div>
 
-    <div class="card">
-      <button class="danger full" onclick="logout()">
-        🚪 Déconnexion
-      </button>
-    </div>
-  </section>
+<button class="primary" onclick="copyNova()">
+Copier
+</button>
+
+</div>
+</div>
+</div>
+
+
+<div class="section-title">🏆 Classement</div>
+
+<div class="card">
+
+<div class="rank">
+<div class="rank-number">1</div>
+<div class="rank-info">
+<div class="rank-name">Trader Alpha ⭐</div>
+<div class="rank-performance">+62,4% annuel</div>
+</div>
+</div>
+
+<div class="rank">
+<div class="rank-number">2</div>
+<div class="rank-info">
+<div class="rank-name">Trader Nova</div>
+<div class="rank-performance">+38,7% annuel</div>
+</div>
+</div>
+
+<div class="rank">
+<div class="rank-number">3</div>
+<div class="rank-info">
+<div class="rank-name">Trader Horizon</div>
+<div class="rank-performance">+27,5% annuel</div>
+</div>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- PORTEFEUILLE -->
+<section id="wallet" class="page">
+
+<h1>Mon portefeuille</h1>
+<p class="subtitle">Gestion de votre portefeuille démo</p>
+
+<div class="card balance-card">
+<div class="balance-label">Solde disponible :</div>
+<div class="balance" id="walletBalance">60 000 FCFA</div>
+<small>Données simulées</small>
+</div>
+
+<div class="grid">
+
+<div class="stat">
+<div class="stat-title">Capital investi</div>
+<div class="stat-value">10 000 FCFA</div>
+</div>
+
+<div class="stat">
+<div class="stat-title">Gain simulé</div>
+<div class="stat-value green">+2 400 FCFA</div>
+</div>
+
+</div>
+
+<div class="card">
+
+<h3>💰 Dépôt simulé</h3>
+<p class="subtitle">
+Ajoutez des fonds fictifs pour tester l'application.
+</p>
+
+<input
+id="depositAmount"
+type="number"
+placeholder="Montant en FCFA"
+min="1000">
+
+<button class="primary full" onclick="deposit()">
++ Déposer
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h3>💸 Retrait simulé</h3>
+<p class="subtitle">
+Cette fonction est uniquement destinée aux tests.
+</p>
+
+<input
+id="withdrawAmount"
+type="number"
+placeholder="Montant en FCFA"
+min="1000">
+
+<button class="secondary full" onclick="withdraw()">
+Retirer
+</button>
+
+</div>
+
+</section>
+
+
+<!-- HISTORIQUE -->
+<section id="history" class="page">
+
+<h1>Historique</h1>
+<p class="subtitle">Vos opérations simulées</p>
+
+<div id="historyList"></div>
+
+</section>
+
+
+<!-- PROFIL -->
+<section id="profile" class="page">
+
+<h1>Mon profil</h1>
+<p class="subtitle">Gérez vos informations</p>
+
+<div class="card">
+
+<div class="profile-row">
+<div class="profile-label">Nom complet</div>
+<div class="profile-value" id="profileName">Koumado</div>
+</div>
+
+<div class="profile-row">
+<div class="profile-label">Adresse mail</div>
+<div class="profile-value" id="profileEmail">
+bradinebabe@gmail.com
+</div>
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>Modifier le profil</h3>
+
+<label>Nom complet</label>
+<input id="nameInput" value="Koumado">
+
+<label>Adresse mail</label>
+<input id="emailInput" value="bradinebabe@gmail.com">
+
+<button class="primary full" onclick="saveProfile()">
+💾 Enregistrer
+</button>
+
+</div>
+
+
+<div class="section-title">⚙️ Paramètres</div>
+
+<div class="card">
+
+<div class="switch-row">
+<strong>🔐 Sécurité du compte</strong>
+<div class="switch on"></div>
+</div>
+
+<div class="switch-row">
+<strong>🔔 Notifications</strong>
+<div class="switch on" onclick="toggleSwitch(this)"></div>
+</div>
+
+<div class="switch-row">
+<strong>🌍 Langue</strong>
+<span>Français</span>
+</div>
+
+</div>
+
+
+<div class="card">
+
+<button class="danger full" onclick="logout()">
+🚪 Déconnexion
+</button>
+
+</div>
+
+</section>
 
 </main>
 
 
 <!-- NAVIGATION -->
 <nav>
-  <div class="nav-content">
 
-    <button
-      class="nav-btn active"
-      onclick="showPage('home', this)"
-    >
-      <span class="nav-icon">🏠</span>
-      Accueil
-    </button>
+<div class="nav">
 
-    <button
-      class="nav-btn"
-      onclick="showPage('traders', this)"
-    >
-      <span class="nav-icon">📈</span>
-      Traders
-    </button>
+<button class="nav-btn active" onclick="showPage('home',this)">
+<span class="icon">🏠</span>
+Accueil
+</button>
 
-    <button
-      class="nav-btn"
-      onclick="showPage('wallet', this)"
-    >
-      <span class="nav-icon">💰</span>
-      Portefeuille
-    </button>
+<button class="nav-btn" onclick="showPage('traders',this)">
+<span class="icon">📈</span>
+Traders
+</button>
 
-    <button
-      class="nav-btn"
-      onclick="showPage('history', this)"
-    >
-      <span class="nav-icon">📜</span>
-      Historique
-    </button>
+<button class="nav-btn" onclick="showPage('wallet',this)">
+<span class="icon">💰</span>
+Portefeuille
+</button>
 
-    <button
-      class="nav-btn"
-      onclick="showPage('profile', this)"
-    >
-      <span class="nav-icon">👤</span>
-      Profil
-    </button>
+<button class="nav-btn" onclick="showPage('history',this)">
+<span class="icon">📜</span>
+Historique
+</button>
 
-  </div>
+<button class="nav-btn" onclick="showPage('profile',this)">
+<span class="icon">👤</span>
+Profil
+</button>
+
+</div>
+
 </nav>
 
 
 <script>
 
-  let balance = 60000;
+let balance = 60000;
 
-  let history = [
-    {
-      title: "Copie simulée de Trader Alpha",
-      date: "03/10/2026 à 22:16",
-      amount: "10 000 FCFA"
-    }
-  ];
+let history = [
+{
+title:"Copie simulée de Trader Alpha",
+date:"04/10/2026 à 06:40:50",
+amount:"10 000 FCFA"
+}
+];
 
 
-  function formatMoney(number) {
-    return Number(number).toLocaleString("fr-FR") + " FCFA";
-  }
+function money(number){
+return Number(number).toLocaleString("fr-FR")+" FCFA";
+}
 
 
-  function updateBalance() {
-    document.getElementById("homeBalance").textContent =
-      formatMoney(balance);
+function updateBalance(){
 
-    document.getElementById("walletBalance").textContent =
-      formatMoney(balance);
-  }
+document.getElementById("homeBalance").textContent =
+money(balance);
 
+document.getElementById("walletBalance").textContent =
+money(balance);
 
-  function showPage(pageId, button) {
+}
 
-    document.querySelectorAll(".page").forEach(page => {
-      page.classList.remove("active");
-    });
 
-    document.getElementById(pageId).classList.add("active");
+function showPage(page,button){
 
-    document.querySelectorAll(".nav-btn").forEach(btn => {
-      btn.classList.remove("active");
-    });
+document.querySelectorAll(".page").forEach(p=>{
+p.classList.remove("active");
+});
 
-    button.classList.add("active");
+document.getElementById(page).classList.add("active");
 
-    if (pageId === "history") {
-      renderHistory();
-    }
+document.querySelectorAll(".nav-btn").forEach(b=>{
+b.classList.remove("active");
+});
 
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-  }
+button.classList.add("active");
 
+if(page==="history"){
+renderHistory();
+}
 
-  function showAlert(message) {
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
 
-    const alert = document.getElementById("alert");
+}
 
-    alert.textContent = message;
-    alert.style.display = "block";
 
-    setTimeout(() => {
-      alert.style.display = "none";
-    }, 3500);
-  }
+function alertMessage(message){
 
+const box=document.getElementById("alert");
 
-  function copyTrader() {
+box.textContent=message;
+box.style.display="block";
 
-    const amount = 10000;
+setTimeout(()=>{
+box.style.display="none";
+},3500);
 
-    if (balance < amount) {
-      showAlert("Solde insuffisant pour cette simulation.");
-      return;
-    }
+}
 
-    balance -= amount;
 
-    history.unshift({
-      title: "Copie simulée de Trader Alpha",
-      date: new Date().toLocaleString("fr-FR"),
-      amount: formatMoney(amount)
-    });
+function copyTrader(){
 
-    updateBalance();
+const amount=10000;
 
-    showAlert(
-      "✅ Trader Alpha a été copié avec succès en mode démo."
-    );
+if(balance<amount){
 
-    renderHistory();
-  }
+alertMessage("❌ Solde insuffisant.");
 
+return;
+}
 
-  function copyNova() {
+balance-=amount;
 
-    const amount = 5000;
+history.unshift({
+title:"Copie simulée de Trader Alpha",
+date:new Date().toLocaleString("fr-FR"),
+amount:money(amount)
+});
 
-    if (balance < amount) {
-      showAlert("Solde insuffisant pour cette simulation.");
-      return;
-    }
+updateBalance();
 
-    balance -= amount;
+alertMessage(
+"✅ Trader Alpha copié avec succès en mode démo."
+);
 
-    history.unshift({
-      title: "Copie simulée de Trader Nova",
-      date: new Date().toLocaleString("fr-FR"),
-      amount: formatMoney(amount)
-    });
+}
 
-    updateBalance();
 
-    showAlert(
-      "✅ Trader Nova a été copié avec succès en mode démo."
-    );
+function copyNova(){
 
-    renderHistory();
-  }
+const amount=5000;
 
+if(balance<amount){
 
-  function deposit() {
+alertMessage("❌ Solde insuffisant.");
 
-    const input = document.getElementById("depositAmount");
+return;
+}
 
-    const amount = Number(input.value);
+balance-=amount;
 
-    if (!amount || amount < 1000) {
-      showAlert(
-        "Entrez un montant d'au moins 1 000 FCFA."
-      );
-      return;
-    }
+history.unshift({
+title:"Copie simulée de Trader Nova",
+date:new Date().toLocaleString("fr-FR"),
+amount:money(amount)
+});
 
-    balance += amount;
+updateBalance();
 
-    history.unshift({
-      title: "Dépôt simulé",
-      date: new Date().toLocaleString("fr-FR"),
-      amount: "+" + formatMoney(amount)
-    });
+alertMessage(
+"✅ Trader Nova copié avec succès en mode démo."
+);
 
-    input.value = "";
+}
 
-    updateBalance();
 
-    showAlert(
-      "✅ Dépôt simulé effectué."
-    );
-  }
+function deposit(){
 
+const input=document.getElementById("depositAmount");
 
-  function withdraw() {
+const amount=Number(input.value);
 
-    const input = document.getElementById("withdrawAmount");
+if(!amount || amount<1000){
 
-    const amount = Number(input.value);
+alertMessage(
+"Entrez au moins 1 000 FCFA."
+);
 
-    if (!amount || amount < 1000) {
-      showAlert(
-        "Entrez un montant d'au moins 1 000 FCFA."
-      );
-      return;
-    }
+return;
+}
 
-    if (amount > balance) {
-      showAlert(
-        "❌ Solde insuffisant."
-      );
-      return;
-    }
+balance+=amount;
 
-    balance -= amount;
+history.unshift({
+title:"Dépôt simulé",
+date:new Date().toLocaleString("fr-FR"),
+amount:"+"+money(amount)
+});
 
-    history.unshift({
-      title: "Retrait simulé",
-      date: new Date().toLocaleString("fr-FR"),
-      amount: "-" + formatMoney(amount)
-    });
+input.value="";
 
-    input.value = "";
+updateBalance();
 
-    updateBalance();
+alertMessage(
+"✅ Dépôt simulé effectué."
+);
 
-    showAlert(
-      "✅ Retrait simulé effectué."
-    );
-  }
+}
 
 
-  function renderHistory() {
+function withdraw(){
 
-    const list = document.getElementById("historyList");
+const input=document.getElementById("withdrawAmount");
 
-    if (history.length === 0) {
+const amount=Number(input.value);
 
-      list.innerHTML =
-        '<div class="card empty">Aucune opération pour le moment.</div>';
+if(!amount || amount<1000){
 
-      return;
-    }
+alertMessage(
+"Entrez au moins 1 000 FCFA."
+);
 
-    list.innerHTML = history.map(item => {
+return;
+}
 
-      return `
-        <div class="card history-item">
-          <div class="history-title">
-            ${item.title}
-          </div>
+if(amount>balance){
 
-          <div>
-            ${item.amount}
-          </div>
+alertMessage(
+"❌ Solde insuffisant."
+);
 
-          <div class="history-date">
-            ${item.date}
-          </div>
-        </div>
-      `;
+return;
+}
 
-    }).join("");
-  }
+balance-=amount;
 
-
-  function saveProfile() {
-
-    const name =
-      document.getElementById("nameInput").value.trim();
-
-    const email =
-      document.getElementById("emailInput").value.trim();
-
-    if (!name || !email) {
-
-      showAlert(
-        "Veuillez remplir les deux champs."
-      );
-
-      return;
-    }
-
-    document.getElementById("profileName").textContent =
-      name;
-
-    document.getElementById("profileEmail").textContent =
-      email;
-
-    showAlert(
-      "✅ Profil enregistré."
-    );
-  }
-
-
-  function toggleSwitch(element) {
-
-    element.classList.toggle("on");
-
-    if (element.classList.contains("on")) {
-
-      showAlert(
-        "🔔 Notifications activées."
-      );
-
-    } else {
-
-      showAlert(
-        "🔕 Notifications désactivées."
-      );
-    }
-  }
-
-
-  function logout() {
-
-    const confirmation =
-      confirm(
-        "Voulez-vous vraiment vous déconnecter de la démo ?"
-      );
-
-    if (confirmation) {
-
-      showAlert(
-        "🚪 Déconnexion simulée."
-      );
-
-      setTimeout(() => {
-        showPage(
-          "home",
-          document.querySelector(".nav-btn")
-        );
-      }, 700);
-    }
-  }
-
-
-  updateBalance();
-  renderHistory();
-
-</script>
-
-</body>
-  </html>
+history.unshift({
+title:"Retrait simulé",
+date:new Date().toLocaleString("fr-FR"),
+amount:"-"+
