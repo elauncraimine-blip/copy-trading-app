@@ -1,1078 +1,943 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CopyGain — Copy Trading</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#111827">
+  <title>CopyGain - Copy Trading</title>
 
-<style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:Arial,sans-serif;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
 
-body{
-  background:#f3f6fb;
-  color:#172033;
-}
+    body {
+      background: #f3f4f6;
+      color: #111827;
+      min-height: 100vh;
+    }
 
-header{
-  background:linear-gradient(135deg,#111827,#1e3a8a);
-  color:white;
-  padding:28px 18px;
-  text-align:center;
-}
+    header {
+      background: #111827;
+      color: white;
+      padding: 18px 16px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 2px 8px rgba(0,0,0,.15);
+    }
 
-header h1{
-  font-size:32px;
-}
+    .header-content {
+      max-width: 900px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-header p{
-  margin-top:8px;
-  color:#dbe4f2;
-}
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+    }
 
-nav{
-  display:flex;
-  overflow-x:auto;
-  background:white;
-  padding:10px;
-  gap:8px;
-  position:sticky;
-  top:0;
-  z-index:10;
-  box-shadow:0 2px 10px rgba(0,0,0,.08);
-}
+    .logo span {
+      color: #22c55e;
+    }
 
-nav button{
-  border:0;
-  background:#eef2f7;
-  padding:11px 15px;
-  border-radius:10px;
-  white-space:nowrap;
-  font-weight:bold;
-}
+    .status {
+      font-size: 12px;
+      background: #166534;
+      padding: 6px 10px;
+      border-radius: 20px;
+    }
 
-main{
-  padding:18px;
-  max-width:900px;
-  margin:auto;
-}
+    main {
+      max-width: 900px;
+      margin: auto;
+      padding: 20px 15px 100px;
+    }
 
-.section{
-  display:none;
-}
+    .page {
+      display: none;
+    }
 
-.section.active{
-  display:block;
-}
+    .page.active {
+      display: block;
+    }
 
-.card{
-  background:white;
-  border-radius:18px;
-  padding:20px;
-  margin-bottom:16px;
-  box-shadow:0 6px 22px rgba(0,0,0,.07);
-}
+    h1 {
+      font-size: 25px;
+      margin-bottom: 6px;
+    }
 
-.balance{
-  background:linear-gradient(135deg,#111827,#2563eb);
-  color:white;
-}
+    .subtitle {
+      color: #6b7280;
+      margin-bottom: 20px;
+    }
 
-.balance h2{
-  font-size:35px;
-  margin:10px 0;
-}
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.06);
+    }
 
-.action{
-  border:0;
-  padding:12px 18px;
-  border-radius:11px;
-  font-weight:bold;
-  margin:5px 3px;
-  background:#2563eb;
-  color:white;
-}
+    .balance-card {
+      background: #111827;
+      color: white;
+    }
 
-.green{
-  background:#16a34a!important;
-}
+    .balance-label {
+      color: #d1d5db;
+      font-size: 14px;
+    }
 
-.red{
-  background:#dc2626!important;
-}
+    .balance {
+      font-size: 32px;
+      font-weight: bold;
+      margin: 8px 0;
+    }
 
-.trader{
-  border:1px solid #e1e7ef;
-  border-radius:17px;
-  padding:18px;
-  margin-top:15px;
-}
+    .demo {
+      color: #86efac;
+      font-size: 13px;
+    }
 
-.trader-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-}
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
 
-.trader h3{
-  margin-bottom:6px;
-}
+    .stat {
+      background: white;
+      padding: 16px;
+      border-radius: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.05);
+    }
 
-.badge{
-  background:#e8f5ec;
-  color:#16803c;
-  padding:6px 9px;
-  border-radius:20px;
-  font-size:12px;
-  font-weight:bold;
-}
+    .stat-title {
+      color: #6b7280;
+      font-size: 13px;
+    }
 
-.profit{
-  color:#16a34a;
-  font-weight:bold;
-  font-size:26px;
-  margin:10px 0;
-}
+    .stat-value {
+      font-size: 21px;
+      font-weight: bold;
+      margin-top: 7px;
+    }
 
-.stats{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
-  margin:15px 0;
-}
+    .green {
+      color: #16a34a;
+    }
 
-.stat{
-  background:#f6f8fb;
-  padding:12px;
-  border-radius:11px;
-}
+    .red {
+      color: #dc2626;
+    }
 
-.stat small{
-  color:#6b7280;
-}
+    .trader {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
 
-.stat strong{
-  display:block;
-  margin-top:5px;
-}
+    .trader-info {
+      flex: 1;
+    }
 
-input{
-  width:100%;
-  padding:13px;
-  border:1px solid #ccd4df;
-  border-radius:11px;
-  margin:8px 0 14px;
-  font-size:15px;
-}
+    .trader-name {
+      font-size: 19px;
+      font-weight: bold;
+    }
 
-.auth{
-  max-width:450px;
-  margin:40px auto;
-}
+    .verified {
+      font-size: 12px;
+      color: #2563eb;
+      margin-top: 4px;
+    }
 
-.message{
-  margin-top:12px;
-  font-weight:bold;
-}
+    .strategy {
+      color: #6b7280;
+      font-size: 13px;
+      margin-top: 6px;
+    }
 
-.detail-box{
-  background:#f7f9fc;
-  padding:16px;
-  border-radius:12px;
-  margin-top:12px;
-  display:none;
-}
+    .performance {
+      font-size: 21px;
+      font-weight: bold;
+      color: #16a34a;
+      margin: 6px 0;
+    }
 
-.hero{
-  text-align:center;
-  padding:10px 0 5px;
-}
+    button {
+      border: none;
+      cursor: pointer;
+      border-radius: 10px;
+      padding: 11px 15px;
+      font-weight: bold;
+      font-size: 14px;
+    }
 
-.hero h2{
-  font-size:25px;
-}
+    .primary {
+      background: #16a34a;
+      color: white;
+    }
 
-.hero p{
-  margin-top:8px;
-  color:#687386;
-}
+    .primary:hover {
+      background: #15803d;
+    }
 
-.feature-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
-  margin-top:15px;
-}
+    .secondary {
+      background: #e5e7eb;
+      color: #111827;
+    }
 
-.feature{
-  background:#f7f9fc;
-  padding:15px;
-  border-radius:12px;
-}
+    .danger {
+      background: #dc2626;
+      color: white;
+    }
 
-.feature strong{
-  display:block;
-  margin-bottom:5px;
-}
+    .full {
+      width: 100%;
+    }
 
-hr{
-  border:0;
-  border-top:1px solid #e5e7eb;
-}
+    .profile-row {
+      padding: 14px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
 
-footer{
-  text-align:center;
-  padding:28px;
-  color:#687386;
-  font-size:13px;
-}
+    .profile-row:last-child {
+      border-bottom: none;
+    }
 
-.warning{
-  font-size:13px;
-  color:#596579;
-  line-height:1.5;
-}
-</style>
+    .profile-label {
+      color: #6b7280;
+      font-size: 13px;
+    }
+
+    .profile-value {
+      font-weight: bold;
+      margin-top: 4px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      margin-top: 7px;
+      margin-bottom: 12px;
+      font-size: 15px;
+    }
+
+    .history-item {
+      border-left: 4px solid #16a34a;
+      padding: 12px;
+      background: #f9fafb;
+      margin-bottom: 10px;
+      border-radius: 8px;
+    }
+
+    .history-title {
+      font-weight: bold;
+    }
+
+    .history-date {
+      color: #6b7280;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .empty {
+      text-align: center;
+      color: #6b7280;
+      padding: 25px;
+    }
+
+    .alert {
+      padding: 13px;
+      border-radius: 10px;
+      background: #dcfce7;
+      color: #166534;
+      margin-bottom: 15px;
+      display: none;
+    }
+
+    nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      border-top: 1px solid #e5e7eb;
+      z-index: 20;
+    }
+
+    .nav-content {
+      max-width: 900px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+    }
+
+    .nav-btn {
+      background: white;
+      color: #6b7280;
+      border-radius: 0;
+      padding: 10px 4px;
+      font-size: 11px;
+    }
+
+    .nav-btn.active {
+      color: #16a34a;
+      font-weight: bold;
+    }
+
+    .nav-icon {
+      display: block;
+      font-size: 19px;
+      margin-bottom: 3px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin: 20px 0 10px;
+    }
+
+    .switch-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .switch {
+      width: 45px;
+      height: 25px;
+      border-radius: 20px;
+      background: #d1d5db;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .switch.on {
+      background: #16a34a;
+    }
+
+    .switch::after {
+      content: "";
+      width: 19px;
+      height: 19px;
+      background: white;
+      border-radius: 50%;
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      transition: .2s;
+    }
+
+    .switch.on::after {
+      left: 23px;
+    }
+
+    @media (max-width: 600px) {
+      .trader {
+        align-items: flex-start;
+      }
+
+      .trader button {
+        padding: 10px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
 <header>
-<h1>💹 CopyGain</h1>
-<p>La plateforme de copy trading — mode démonstration</p>
+  <div class="header-content">
+    <div class="logo">Copy<span>Gain</span></div>
+    <div class="status">● MODE DÉMO</div>
+  </div>
 </header>
-
-<!-- CONNEXION -->
-<section id="login" class="section active">
-
-<div class="card auth">
-
-<div class="hero">
-<h2>🔐 Bienvenue sur CopyGain</h2>
-<p>Connecte-toi pour accéder à ton espace.</p>
-</div>
-
-<input id="loginEmail"
-type="email"
-placeholder="Adresse email">
-
-<input id="loginPassword"
-type="password"
-placeholder="Mot de passe">
-
-<button class="action"
-onclick="login()">
-Se connecter
-</button>
-
-<button class="action green"
-onclick="showAuth('register')">
-Créer un compte
-</button>
-
-<p id="loginMessage" class="message"></p>
-
-</div>
-</section>
-
-<!-- INSCRIPTION -->
-<section id="register" class="section">
-
-<div class="card auth">
-
-<div class="hero">
-<h2>👤 Créer ton compte</h2>
-<p>Rejoins l'expérience CopyGain.</p>
-</div>
-
-<input id="registerName"
-type="text"
-placeholder="Nom complet">
-
-<input id="registerEmail"
-type="email"
-placeholder="Adresse email">
-
-<input id="registerPassword"
-type="password"
-placeholder="Mot de passe">
-
-<button class="action green"
-onclick="register()">
-Créer mon compte
-</button>
-
-<button class="action"
-onclick="showAuth('login')">
-J'ai déjà un compte
-</button>
-
-<p id="registerMessage" class="message"></p>
-
-</div>
-</section>
-
-<!-- APPLICATION -->
-<div id="app" style="display:none;">
-
-<nav>
-
-<button onclick="showSection('dashboard')">
-🏠 Accueil
-</button>
-
-<button onclick="showSection('traders')">
-📊 Traders
-</button>
-
-<button onclick="showSection('wallet')">
-💰 Portefeuille
-</button>
-
-<button onclick="showSection('history')">
-📈 Historique
-</button>
-
-<button onclick="showSection('profile')">
-👤 Profil
-</button>
-
-<button onclick="logout()">
-🚪 Sortir
-</button>
-
-</nav>
 
 <main>
 
-<!-- ACCUEIL -->
-<section id="dashboard" class="section">
-
-<div class="card balance">
-
-<p>💰 Solde disponible</p>
-
-<h2 id="balance">
-50 000 FCFA
-</h2>
-
-<p>Compte démo CopyGain</p>
-
-</div>
-
-<div class="card">
-
-<h2>Bonjour 👋</h2>
-
-<p id="welcomeName" style="margin-top:10px;"></p>
-
-<p style="margin-top:12px;">
-Découvre les traders disponibles, analyse leurs stratégies
-et simule la copie de leurs opérations.
-</p>
-
-</div>
-
-<div class="card">
-
-<h2>⚡ Actions rapides</h2>
-
-<button class="action"
-onclick="showSection('traders')">
-📊 Découvrir les traders
-</button>
-
-<button class="action green"
-onclick="showSection('wallet')">
-💳 Mon portefeuille
-</button>
-
-</div>
-
-<div class="card">
-
-<h2>✨ Pourquoi CopyGain ?</h2>
-
-<div class="feature-grid">
-
-<div class="feature">
-<strong>📊 Analyse</strong>
-Compare les traders.
-</div>
-
-<div class="feature">
-<strong>🔄 Copy Trading</strong>
-Simule la copie.
-</div>
-
-<div class="feature">
-<strong>🛡️ Sécurité</strong>
-Espace personnel.
-</div>
-
-<div class="feature">
-<strong>📈 Suivi</strong>
-Consulte ton historique.
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- TRADERS -->
-<section id="traders" class="section">
-
-<div class="card">
-
-<h2>📊 Traders CopyGain</h2>
-
-<p style="margin-top:8px;">
-Compare les performances avant de choisir.
-</p>
-
-<!-- ALPHA -->
-
-<div class="trader">
-
-<div class="trader-top">
-
-<div>
-<h3>🏆 Trader Alpha</h3>
-<p>Stratégie équilibrée</p>
-</div>
-
-<span class="badge">
-⭐ Vérifié
-</span>
-
-</div>
-
-<p class="profit">+18,5%</p>
-
-<p>Performance sur 30 jours</p>
-
-<div class="stats">
-
-<div class="stat">
-<small>Copieurs</small>
-<strong>1 248</strong>
-</div>
-
-<div class="stat">
-<small>Mise minimale</small>
-<strong>5 000 FCFA</strong>
-</div>
-
-<div class="stat">
-<small>Expérience</small>
-<strong>4 ans</strong>
-</div>
-
-<div class="stat">
-<small>Risque</small>
-<strong>Modéré</strong>
-</div>
-
-</div>
-
-<button class="action"
-onclick="details('alpha')">
-🔍 Voir le profil
-</button>
-
-<button class="action green"
-onclick="copyTrader('Trader Alpha')">
-🔄 Copier ce trader
-</button>
-
-<div id="alpha" class="detail-box">
-
-<strong>Profil Trader Alpha</strong>
-
-<p style="margin-top:8px;">
-Stratégie équilibrée avec recherche de performance régulière.
-</p>
-
-<p style="margin-top:8px;">
-Performance annuelle : <strong>+62,4%</strong>
-</p>
-
-<p style="margin-top:8px;">
-Statut : ⭐ Trader vérifié
-</p>
-
-</div>
-
-</div>
-
-<!-- PRO -->
-
-<div class="trader">
-
-<div class="trader-top">
-
-<div>
-<h3>🚀 Trader Pro</h3>
-<p>Trading dynamique</p>
-</div>
-
-<span class="badge">
-Risque élevé
-</span>
-
-</div>
-
-<p class="profit">+24,2%</p>
-
-<p>Performance sur 30 jours</p>
-
-<div class="stats">
-
-<div class="stat">
-<small>Copieurs</small>
-<strong>2 516</strong>
-</div>
-
-<div class="stat">
-<small>Mise minimale</small>
-<strong>10 000 FCFA</strong>
-</div>
-
-<div class="stat">
-<small>Expérience</small>
-<strong>6 ans</strong>
-</div>
-
-<div class="stat">
-<small>Risque</small>
-<strong>Élevé</strong>
-</div>
-
-</div>
-
-<button class="action"
-onclick="details('pro')">
-🔍 Voir le profil
-</button>
-
-<button class="action green"
-onclick="copyTrader('Trader Pro')">
-🔄 Copier ce trader
-</button>
-
-<div id="pro" class="detail-box">
-
-<strong>Profil Trader Pro</strong>
-
-<p style="margin-top:8px;">
-Stratégie dynamique visant des rendements plus importants
-avec davantage de risque.
-</p>
-
-<p style="margin-top:8px;">
-Performance annuelle : <strong>+81,7%</strong>
-</p>
-
-<p style="margin-top:8px;">
-Statut : ⭐ Trader vérifié
-</p>
-
-</div>
-
-</div>
-
-<!-- STABLE -->
-
-<div class="trader">
-
-<div class="trader-top">
-
-<div>
-<h3>⭐ Trader Stable</h3>
-<p>Approche prudente</p>
-</div>
-
-<span class="badge">
-Risque faible
-</span>
-
-</div>
-
-<p class="profit">+11,8%</p>
-
-<p>Performance sur 30 jours</p>
-
-<div class="stats">
-
-<div class="stat">
-<small>Copieurs</small>
-<strong>3 842</strong>
-</div>
-
-<div class="stat">
-<small>Mise minimale</small>
-<strong>2 500 FCFA</strong>
-</div>
-
-<div class="stat">
-<small>Expérience</small>
-<strong>7 ans</strong>
-</div>
-
-<div class="stat">
-<small>Risque</small>
-<strong>Faible</strong>
-</div>
-
-</div>
-
-<button class="action"
-onclick="details('stable')">
-🔍 Voir le profil
-</button>
-
-<button class="action green"
-onclick="copyTrader('Trader Stable')">
-🔄 Copier ce trader
-</button>
-
-<div id="stable" class="detail-box">
-
-<strong>Profil Trader Stable</strong>
-
-<p style="margin-top:8px;">
-Approche prudente privilégiant la régularité et la maîtrise du risque.
-</p>
-
-<p style="margin-top:8px;">
-Performance annuelle : <strong>+45,2%</strong>
-</p>
-
-<p style="margin-top:8px;">
-Statut : ⭐ Trader vérifié
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="card">
-
-<p class="warning">
-⚠️ <strong>Mode démonstration :</strong>
-les performances, soldes et opérations affichés sont fictifs.
-Aucun argent réel n'est investi ou transféré.
-Les performances passées ne garantissent pas les résultats futurs.
-</p>
-
-</div>
-
-</section>
-
-<!-- PORTEFEUILLE -->
-
-<section id="wallet" class="section">
-
-<div class="card">
-
-<h2>💰 Mon portefeuille</h2>
-
-<p style="margin-top:15px;">Solde disponible :</p>
-
-<h2 id="walletBalance">
-50 000 FCFA
-</h2>
-
-<hr style="margin:20px 0;">
-
-<h3>💳 Dépôt simulé</h3>
-
-<input id="depositAmount"
-type="number"
-placeholder="Montant en FCFA">
-
-<button class="action green"
-onclick="deposit()">
-Ajouter un dépôt
-</button>
-
-<br><br>
-
-<h3>💸 Retrait simulé</h3>
-
-<input id="withdrawAmount"
-type="number"
-placeholder="Montant en FCFA">
-
-<button class="action red"
-onclick="withdraw()">
-Demander un retrait
-</button>
-
-<p class="warning" style="margin-top:15px;">
-⚠️ Aucun argent réel n'est transféré dans cette version.
-</p>
-
-</div>
-
-</section>
-
-<!-- HISTORIQUE -->
-
-<section id="history" class="section">
-
-<div class="card">
-
-<h2>📈 Historique</h2>
-
-<div id="historyList">
-
-<p style="margin-top:15px;">
-Aucune opération pour le moment.
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- PROFIL -->
-
-<section id="profile" class="section">
-
-<div class="card">
-
-<h2>👤 Mon profil</h2>
-
-<input id="profileName"
-type="text"
-placeholder="Ton nom">
-
-<input id="profileEmail"
-type="email"
-placeholder="Ton email">
-
-<button class="action"
-onclick="saveProfile()">
-💾 Enregistrer
-</button>
-
-<p id="profileMessage" class="message"></p>
-
-</div>
-
-<div class="card">
-
-<h2>⚙️ Paramètres</h2>
-
-<p style="margin-top:12px;">🔐 Sécurité du compte</p>
-<p style="margin-top:12px;">🔔 Notifications</p>
-<p style="margin-top:12px;">🌍 Langue : Français</p>
-
-</div>
-
-</section>
+  <!-- ACCUEIL -->
+  <section id="home" class="page active">
+    <h1>Tableau de bord</h1>
+    <p class="subtitle">Bienvenue sur CopyGain</p>
+
+    <div id="alert" class="alert"></div>
+
+    <div class="card balance-card">
+      <div class="balance-label">Solde disponible</div>
+      <div class="balance" id="homeBalance">60 000 FCFA</div>
+      <div class="demo">Compte de démonstration</div>
+    </div>
+
+    <div class="grid">
+      <div class="stat">
+        <div class="stat-title">Capital investi</div>
+        <div class="stat-value" id="invested">10 000 FCFA</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-title">Gain simulé</div>
+        <div class="stat-value green" id="gain">+2 400 FCFA</div>
+      </div>
+    </div>
+
+    <div class="section-title">Trader recommandé</div>
+
+    <div class="card">
+      <div class="trader">
+        <div class="trader-info">
+          <div class="trader-name">Trader Alpha ⭐</div>
+          <div class="verified">✓ Trader vérifié</div>
+          <div class="strategy">
+            Stratégie équilibrée avec recherche de performance régulière.
+          </div>
+          <div class="performance">+62,4%</div>
+          <small>Performance annuelle simulée</small>
+        </div>
+
+        <button class="primary" onclick="copyTrader()">
+          Copier
+        </button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- TRADERS -->
+  <section id="traders" class="page">
+    <h1>Traders</h1>
+    <p class="subtitle">Découvrez les traders disponibles</p>
+
+    <div class="card">
+      <div class="trader">
+        <div class="trader-info">
+          <div class="trader-name">Trader Alpha ⭐</div>
+          <div class="verified">✓ Trader vérifié</div>
+          <div class="strategy">
+            Stratégie équilibrée avec recherche de performance régulière.
+          </div>
+          <div class="performance">+62,4%</div>
+          <small>Performance annuelle simulée</small>
+        </div>
+
+        <button class="primary" onclick="copyTrader()">
+          Copier
+        </button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="trader">
+        <div class="trader-info">
+          <div class="trader-name">Trader Nova</div>
+          <div class="verified">✓ Trader vérifié</div>
+          <div class="strategy">
+            Stratégie dynamique avec recherche de croissance.
+          </div>
+          <div class="performance">+38,7%</div>
+          <small>Performance annuelle simulée</small>
+        </div>
+
+        <button class="primary" onclick="copyNova()">
+          Copier
+        </button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- PORTEFEUILLE -->
+  <section id="wallet" class="page">
+    <h1>Mon portefeuille</h1>
+    <p class="subtitle">Gestion de votre portefeuille démo</p>
+
+    <div class="card balance-card">
+      <div class="balance-label">Solde disponible :</div>
+      <div class="balance" id="walletBalance">60 000 FCFA</div>
+      <div class="demo">Données simulées</div>
+    </div>
+
+    <div class="card">
+      <h3>Dépôt simulé</h3>
+      <p class="subtitle">Ajoutez des fonds fictifs pour tester CopyGain.</p>
+
+      <input
+        type="number"
+        id="depositAmount"
+        placeholder="Montant en FCFA"
+        min="1000"
+      >
+
+      <button class="primary full" onclick="deposit()">
+        + Déposer
+      </button>
+    </div>
+
+    <div class="card">
+      <h3>Retrait simulé</h3>
+      <p class="subtitle">Simulation uniquement.</p>
+
+      <input
+        type="number"
+        id="withdrawAmount"
+        placeholder="Montant en FCFA"
+        min="1000"
+      >
+
+      <button class="secondary full" onclick="withdraw()">
+        Retirer
+      </button>
+    </div>
+  </section>
+
+
+  <!-- HISTORIQUE -->
+  <section id="history" class="page">
+    <h1>Historique</h1>
+    <p class="subtitle">Vos opérations simulées</p>
+
+    <div id="historyList"></div>
+  </section>
+
+
+  <!-- PROFIL -->
+  <section id="profile" class="page">
+    <h1>Mon profil</h1>
+    <p class="subtitle">Gérez vos informations</p>
+
+    <div class="card">
+      <div class="profile-row">
+        <div class="profile-label">Nom complet</div>
+        <div class="profile-value" id="profileName">
+          Koumado
+        </div>
+      </div>
+
+      <div class="profile-row">
+        <div class="profile-label">Adresse mail</div>
+        <div class="profile-value" id="profileEmail">
+          bradinebabe@gmail.com
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Modifier le profil</h3>
+
+      <label>Nom complet</label>
+      <input type="text" id="nameInput" value="Koumado">
+
+      <label>Adresse mail</label>
+      <input type="email" id="emailInput" value="bradinebabe@gmail.com">
+
+      <button class="primary full" onclick="saveProfile()">
+        💾 Enregistrer
+      </button>
+    </div>
+
+    <div class="section-title">⚙️ Paramètres</div>
+
+    <div class="card">
+
+      <div class="switch-row">
+        <div>
+          <strong>🔐 Sécurité du compte</strong>
+        </div>
+        <div class="switch on"></div>
+      </div>
+
+      <div class="switch-row">
+        <div>
+          <strong>🔔 Notifications</strong>
+        </div>
+        <div
+          class="switch on"
+          onclick="toggleSwitch(this)"
+        ></div>
+      </div>
+
+      <div class="switch-row">
+        <div>
+          <strong>🌍 Langue</strong>
+        </div>
+        <div>Français</div>
+      </div>
+
+    </div>
+
+    <div class="card">
+      <button class="danger full" onclick="logout()">
+        🚪 Déconnexion
+      </button>
+    </div>
+  </section>
 
 </main>
 
-<footer>
-© 2026 CopyGain — Prototype / Démonstration
-</footer>
 
-</div>
+<!-- NAVIGATION -->
+<nav>
+  <div class="nav-content">
+
+    <button
+      class="nav-btn active"
+      onclick="showPage('home', this)"
+    >
+      <span class="nav-icon">🏠</span>
+      Accueil
+    </button>
+
+    <button
+      class="nav-btn"
+      onclick="showPage('traders', this)"
+    >
+      <span class="nav-icon">📈</span>
+      Traders
+    </button>
+
+    <button
+      class="nav-btn"
+      onclick="showPage('wallet', this)"
+    >
+      <span class="nav-icon">💰</span>
+      Portefeuille
+    </button>
+
+    <button
+      class="nav-btn"
+      onclick="showPage('history', this)"
+    >
+      <span class="nav-icon">📜</span>
+      Historique
+    </button>
+
+    <button
+      class="nav-btn"
+      onclick="showPage('profile', this)"
+    >
+      <span class="nav-icon">👤</span>
+      Profil
+    </button>
+
+  </div>
+</nav>
+
 
 <script>
 
-let balance=50000;
+  let balance = 60000;
 
-function showAuth(id){
+  let history = [
+    {
+      title: "Copie simulée de Trader Alpha",
+      date: "03/10/2026 à 22:16",
+      amount: "10 000 FCFA"
+    }
+  ];
 
-document.querySelectorAll('.section')
-.forEach(s=>s.classList.remove('active'));
 
-document.getElementById(id)
-.classList.add('active');
+  function formatMoney(number) {
+    return Number(number).toLocaleString("fr-FR") + " FCFA";
+  }
 
-}
 
-function register(){
+  function updateBalance() {
+    document.getElementById("homeBalance").textContent =
+      formatMoney(balance);
 
-let name=document.getElementById('registerName').value;
-let email=document.getElementById('registerEmail').value;
-let password=document.getElementById('registerPassword').value;
-let message=document.getElementById('registerMessage');
+    document.getElementById("walletBalance").textContent =
+      formatMoney(balance);
+  }
 
-if(!name || !email || !password){
 
-message.textContent="❌ Remplis tous les champs.";
-return;
+  function showPage(pageId, button) {
 
-}
+    document.querySelectorAll(".page").forEach(page => {
+      page.classList.remove("active");
+    });
 
-localStorage.setItem(
-"copygainUser",
-JSON.stringify({
-name:name,
-email:email,
-password:password
-})
-);
+    document.getElementById(pageId).classList.add("active");
 
-message.textContent=
-"✅ Compte créé ! Tu peux maintenant te connecter.";
+    document.querySelectorAll(".nav-btn").forEach(btn => {
+      btn.classList.remove("active");
+    });
 
-}
+    button.classList.add("active");
 
-function login(){
+    if (pageId === "history") {
+      renderHistory();
+    }
 
-let email=document.getElementById('loginEmail').value;
-let password=document.getElementById('loginPassword').value;
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  }
 
-let saved=localStorage.getItem("copygainUser");
-let message=document.getElementById('loginMessage');
 
-if(!saved){
+  function showAlert(message) {
 
-message.textContent=
-"❌ Aucun compte trouvé. Crée d'abord un compte.";
+    const alert = document.getElementById("alert");
 
-return;
+    alert.textContent = message;
+    alert.style.display = "block";
 
-}
+    setTimeout(() => {
+      alert.style.display = "none";
+    }, 3500);
+  }
 
-let user=JSON.parse(saved);
 
-if(email===user.email && password===user.password){
+  function copyTrader() {
 
-localStorage.setItem("copygainLogged","true");
+    const amount = 10000;
 
-openApp(user);
+    if (balance < amount) {
+      showAlert("Solde insuffisant pour cette simulation.");
+      return;
+    }
 
-}else{
+    balance -= amount;
 
-message.textContent=
-"❌ Email ou mot de passe incorrect.";
+    history.unshift({
+      title: "Copie simulée de Trader Alpha",
+      date: new Date().toLocaleString("fr-FR"),
+      amount: formatMoney(amount)
+    });
 
-}
+    updateBalance();
 
-}
+    showAlert(
+      "✅ Trader Alpha a été copié avec succès en mode démo."
+    );
 
-function openApp(user){
+    renderHistory();
+  }
 
-document.getElementById("login")
-.classList.remove("active");
 
-document.getElementById("register")
-.classList.remove("active");
+  function copyNova() {
 
-document.getElementById("app")
-.style.display="block";
+    const amount = 5000;
 
-document.getElementById("welcomeName")
-.textContent=
-"Bonjour "+user.name+
-" ! Ton espace CopyGain est prêt.";
+    if (balance < amount) {
+      showAlert("Solde insuffisant pour cette simulation.");
+      return;
+    }
 
-document.getElementById("profileName")
-.value=user.name;
+    balance -= amount;
 
-document.getElementById("profileEmail")
-.value=user.email;
+    history.unshift({
+      title: "Copie simulée de Trader Nova",
+      date: new Date().toLocaleString("fr-FR"),
+      amount: formatMoney(amount)
+    });
 
-showSection("dashboard");
+    updateBalance();
 
-}
+    showAlert(
+      "✅ Trader Nova a été copié avec succès en mode démo."
+    );
 
-function logout(){
+    renderHistory();
+  }
 
-localStorage.removeItem("copygainLogged");
 
-document.getElementById("app")
-.style.display="none";
+  function deposit() {
 
-showAuth("login");
+    const input = document.getElementById("depositAmount");
 
-alert("👋 Tu es déconnecté.");
+    const amount = Number(input.value);
 
-}
+    if (!amount || amount < 1000) {
+      showAlert(
+        "Entrez un montant d'au moins 1 000 FCFA."
+      );
+      return;
+    }
 
-function showSection(id){
+    balance += amount;
 
-document.querySelectorAll('#app .section')
-.forEach(s=>s.classList.remove('active'));
+    history.unshift({
+      title: "Dépôt simulé",
+      date: new Date().toLocaleString("fr-FR"),
+      amount: "+" + formatMoney(amount)
+    });
 
-document.getElementById(id)
-.classList.add('active');
+    input.value = "";
 
-window.scrollTo({
-top:0,
-behavior:'smooth'
-});
+    updateBalance();
 
-}
+    showAlert(
+      "✅ Dépôt simulé effectué."
+    );
+  }
 
-function details(id){
 
-let box=document.getElementById(id);
+  function withdraw() {
 
-if(box.style.display==="block"){
-box.style.display="none";
-}else{
-box.style.display="block";
-}
+    const input = document.getElementById("withdrawAmount");
 
-}
+    const amount = Number(input.value);
 
-function copyTrader(name){
+    if (!amount || amount < 1000) {
+      showAlert(
+        "Entrez un montant d'au moins 1 000 FCFA."
+      );
+      return;
+    }
 
-alert(
-"✅ "+name+
-" sélectionné.\n\n"+
-"Mode démonstration : la copie automatique sera disponible dans une prochaine version."
-);
+    if (amount > balance) {
+      showAlert(
+        "❌ Solde insuffisant."
+      );
+      return;
+    }
 
-addHistory("Copie simulée de "+name);
+    balance -= amount;
 
-}
+    history.unshift({
+      title: "Retrait simulé",
+      date: new Date().toLocaleString("fr-FR"),
+      amount: "-" + formatMoney(amount)
+    });
 
-function updateBalance(){
+    input.value = "";
 
-document.getElementById("balance")
-.textContent=
-balance.toLocaleString("fr-FR")+" FCFA";
+    updateBalance();
 
-document.getElementById("walletBalance")
-.textContent=
-balance.toLocaleString("fr-FR")+" FCFA";
+    showAlert(
+      "✅ Retrait simulé effectué."
+    );
+  }
 
-}
 
-function deposit(){
+  function renderHistory() {
 
-let amount=Number(
-document.getElementById("depositAmount").value
-);
+    const list = document.getElementById("historyList");
 
-if(amount<=0){
-alert("Entre un montant valide.");
-return;
-}
+    if (history.length === 0) {
 
-balance+=amount;
+      list.innerHTML =
+        '<div class="card empty">Aucune opération pour le moment.</div>';
 
-updateBalance();
+      return;
+    }
 
-addHistory(
-"Dépôt simulé : +"+
-amount.toLocaleString("fr-FR")+" FCFA"
-);
+    list.innerHTML = history.map(item => {
 
-document.getElementById("depositAmount").value="";
+      return `
+        <div class="card history-item">
+          <div class="history-title">
+            ${item.title}
+          </div>
 
-alert("✅ Dépôt ajouté en démonstration.");
+          <div>
+            ${item.amount}
+          </div>
 
-}
+          <div class="history-date">
+            ${item.date}
+          </div>
+        </div>
+      `;
 
-function withdraw(){
+    }).join("");
+  }
 
-let amount=Number(
-document.getElementById("withdrawAmount").value
-);
 
-if(amount<=0){
-alert("Entre un montant valide.");
-return;
-}
+  function saveProfile() {
 
-if(amount>balance){
-alert("❌ Solde insuffisant.");
-return;
-}
+    const name =
+      document.getElementById("nameInput").value.trim();
 
-balance-=amount;
+    const email =
+      document.getElementById("emailInput").value.trim();
 
-updateBalance();
+    if (!name || !email) {
 
-addHistory(
-"Retrait simulé : -"+
-amount.toLocaleString("fr-FR")+" FCFA"
-);
+      showAlert(
+        "Veuillez remplir les deux champs."
+      );
 
-document.getElementById("withdrawAmount").value="";
+      return;
+    }
 
-alert("✅ Retrait simulé.");
+    document.getElementById("profileName").textContent =
+      name;
 
-}
+    document.getElementById("profileEmail").textContent =
+      email;
 
-function addHistory(text){
+    showAlert(
+      "✅ Profil enregistré."
+    );
+  }
 
-let list=document.getElementById("historyList");
 
-if(
-list.children.length===1 &&
-list.children[0].tagName==="P"
-){
-list.innerHTML="";
-}
+  function toggleSwitch(element) {
 
-let item=document.createElement("p");
+    element.classList.toggle("on");
 
-item.style.padding="12px 0";
-item.style.borderBottom="1px solid #eee";
+    if (element.classList.contains("on")) {
 
-item.textContent=
-"• "+text+
-" — "+
-new Date().toLocaleString("fr-FR");
+      showAlert(
+        "🔔 Notifications activées."
+      );
 
-list.prepend(item);
+    } else {
 
-}
+      showAlert(
+        "🔕 Notifications désactivées."
+      );
+    }
+  }
 
-function saveProfile(){
 
-let name=document.getElementById("profileName").value;
-let email=document.getElementById("profileEmail").value;
+  function logout() {
 
-let saved=localStorage.getItem("copygainUser");
+    const confirmation =
+      confirm(
+        "Voulez-vous vraiment vous déconnecter de la démo ?"
+      );
 
-if(saved){
+    if (confirmation) {
 
-let user=JSON.parse(saved);
+      showAlert(
+        "🚪 Déconnexion simulée."
+      );
 
-user.name=name;
-user.email=email;
+      setTimeout(() => {
+        showPage(
+          "home",
+          document.querySelector(".nav-btn")
+        );
+      }, 700);
+    }
+  }
 
-localStorage.setItem(
-"copygainUser",
-JSON.stringify(user)
-);
 
-}
-
-document.getElementById("profileMessage")
-.textContent="✅ Profil enregistré.";
-
-document.getElementById("welcomeName")
-.textContent=
-"Bonjour "+name+
-" ! Ton espace CopyGain est prêt.";
-
-}
-
-updateBalance();
+  updateBalance();
+  renderHistory();
 
 </script>
 
 </body>
-</html>
+  </html>
